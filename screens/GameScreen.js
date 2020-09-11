@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, Text, Alert, ScrollView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { ScreenOrientation } from 'expo';
 
 import Card from '../components/Card';
 import NumberContainer from '../components/NumberContainer';
@@ -28,13 +29,16 @@ const renderListItem = (listLength, itemData) => (
         <BodyText>{itemData.item}</BodyText>
     </View>)
     ;
-
 const GameScreen = props => {
+    // DOES NOT WORK
+    // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
     const initialGuess = generateRandomBetween(1, 100, props.userChoice);
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
     const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
     const currentLow = useRef(1);
     const currentHigh = useRef(100);
+    const [availableDeviceWidth, setAvailableDeviceWidth] = useState(Dimensions.get('window').width);
+    const [availableDeviceHeight, setAvailableDeviceHeight] = useState(Dimensions.get('window').height);
 
     // array destructer
     const { userChoice, onGameOver } = props;
@@ -44,6 +48,17 @@ const GameScreen = props => {
             onGameOver(pastGuesses.length);
         }
     }, [currentGuess, userChoice, onGameOver]);
+
+    useEffect(() => {
+        const updateLayout = () => {
+            setAvailableDeviceHeight(Dimensions.get('window').height);
+            setAvailableDeviceWidth(Dimensions.get('window').width)
+        };
+        Dimensions.addEventListener('change', updateLayout);
+        return () => {
+            Dimensions.removeEventListener('change', updateLayout);
+        }
+    });
 
     const nextGuessHandler = (direction) => {
         if ((direction === 'lower' && currentGuess < props.userChoice) ||
@@ -64,10 +79,38 @@ const GameScreen = props => {
         setPastGuesses((curPastGuess) => [nextNumber.toString(), ...curPastGuess]);
     };
 
+    // Using Dimensions in if checks(style)
     let listContainerStyle = styles.listContainer;
-    if (Dimensions.get('window').width < 350) {
+    if (availableDeviceWidth < 350) {
         listContainerStyle = styles.listContainerBig;
     }
+
+    if (availableDeviceHeight < 500)
+        return (
+            <View style={styles.screen}>
+                <Text style={defaultStyles.text}>Opponent's Guess</Text>
+                <View style={styles.controls}>
+                    <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
+                        <Ionicons name='md-remove' size={24} color="white" />
+                    </MainButton>
+                    <NumberContainer>{currentGuess}</NumberContainer>
+                    <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
+                        <Ionicons name='md-add' size={24} color="white" />
+                    </MainButton>
+                </View>
+                <View style={listContainerStyle}>
+                    {/* <ScrollView contentContainerStyle= {styles.list}>
+                {pastGuesses.map((guess, index) => renderListItem(guess, pastGuesses.length - index))}
+            </ScrollView> */}
+                    <FlatList
+                        keyExtractor={item => item}
+                        data={pastGuesses}
+                        renderItem={renderListItem.bind(this, pastGuesses.length)}
+                        contentContainerStyle={styles.list} >
+                    </FlatList>
+                </View>
+            </View>
+        );
 
     return (
         <View style={styles.screen}>
@@ -109,6 +152,13 @@ const styles = StyleSheet.create({
         width: 400,
         maxWidth: '90%',
         marginTop: Dimensions.get('window').height > 600 ? 20 : 5
+    },
+    controls: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '80%'
+
     },
     // flex=1 for android to can scroll the items
     listContainer: {
