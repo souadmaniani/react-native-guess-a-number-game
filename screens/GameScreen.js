@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, Text, Alert, ScrollView, FlatList, Dimensions } from 'react-native';
+import {
+    View, StyleSheet, Text, Alert,
+    FlatList, Dimensions
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenOrientation } from 'expo';
+// import { ScreenOrientation } from 'expo';
 
 import Card from '../components/Card';
 import NumberContainer from '../components/NumberContainer';
@@ -37,8 +40,10 @@ const GameScreen = props => {
     const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
     const currentLow = useRef(1);
     const currentHigh = useRef(100);
-    const [availableDeviceWidth, setAvailableDeviceWidth] = useState(Dimensions.get('window').width);
-    const [availableDeviceHeight, setAvailableDeviceHeight] = useState(Dimensions.get('window').height);
+    const [availableDeviceWidth, setAvailableDeviceWidth] =
+        useState(Dimensions.get('window').width);
+    const [availableDeviceHeight, setAvailableDeviceHeight] =
+        useState(Dimensions.get('window').height);
 
     // array destructer
     const { userChoice, onGameOver } = props;
