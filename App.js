@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 
@@ -11,7 +11,10 @@ import GameOverScreen from './screens/GameOverScreen';
 const fetchFonts = () => {
   return (Font.loadAsync({
     'open-sans-regular': require('./assets/font/OpenSans-Regular.ttf'),
-    'open-sans-bold': require('./assets/font/OpenSans-Bold.ttf')
+    'open-sans-bold': require('./assets/font/OpenSans-Bold.ttf'),
+    'nunito-black': require('./assets/font/Nunito-Black.ttf'),
+    'nunito-regular': require('./assets/font/Nunito-Regular.ttf'),
+    'nunito-semi-bold-italic': require('./assets/font/Nunito-SemiBoldItalic.ttf'),
   }));
 };
 

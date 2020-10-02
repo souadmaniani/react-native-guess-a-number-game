@@ -10,7 +10,7 @@ const MainButton = props => {
     return (
         <View style={styles.buttonContainer}>
             <ButtonComponent activeOpacity={0.6} onPress={props.onPress}>
-                <View style={styles.button}>
+                <View style={{ ...styles.button, ...props.style}}>
                     <Text style={styles.buttonText}>{props.children}</Text>
                 </View>
             </ButtonComponent>
@@ -26,13 +26,14 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: Colors.primary,
-        paddingHorizontal: 30,
+        paddingHorizontal: 25,
         paddingVertical: 12,
-        borderRadius: 25
+        borderRadius: 20
     },
     buttonText: {
         color: 'white',
-        fontFamily: 'open-sans-regular'
+        fontFamily: 'open-sans-regular',
+        textAlign:'center'
     }
 });
 

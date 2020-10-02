@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, Text, ScrollView, Dimensions }
     from 'react-native';
 import BodyText from '../components/BodyText';
@@ -24,7 +24,7 @@ const GameOverScreen = props => {
     return (
         <ScrollView>
             <View style={styles.screen}>
-                <TitleText>The Game is Over!</TitleText>
+                <TitleText style={styles.title}>The Game is Over!</TitleText>
                 <View style={{
                     width: availableDeviceWidth * 0.7,
                     height: availableDeviceWidth * 0.7,
@@ -53,8 +53,8 @@ const GameOverScreen = props => {
                 </BodyText>
                 </View>
                 <MainButton onPress={props.onRestart} >
-                    New Game
-            </MainButton>
+                    <Text style={styles.buttonText}>New Game </Text>
+                </MainButton>
             </View>
         </ScrollView >
     );
@@ -74,6 +74,16 @@ const styles = StyleSheet.create({
     highLigh: {
         fontFamily: 'open-sans-bold',
         color: Colors.primary
+    },
+    title: {
+        fontSize: 24,
+        marginVertical: 18,
+        fontFamily: 'nunito-black',
+        color: Colors.second
+    },
+    buttonText: {
+        fontSize: 18,
+        fontFamily: 'nunito-regular'
     }
 });
 

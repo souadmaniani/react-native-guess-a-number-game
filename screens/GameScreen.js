@@ -28,8 +28,8 @@ const generateRandomBetween = (min, max, exclude) => {
 // itemData will forward automatically by react
 const renderListItem = (listLength, itemData) => (
     <View style={styles.listItem}>
-        <BodyText>#{listLength - itemData.index}</BodyText>
-        <BodyText>{itemData.item}</BodyText>
+        <BodyText  style={{fontSize: 18}}>#{listLength - itemData.index}</BodyText>
+        <BodyText  style={{fontSize: 18}}>{itemData.item}</BodyText>
     </View>)
     ;
 const GameScreen = props => {
@@ -119,7 +119,7 @@ const GameScreen = props => {
 
     return (
         <View style={styles.screen}>
-            <Text style={defaultStyles.text}>Opponent's Guess</Text>
+            <BodyText style={{ fontSize: 20 }}>Opponent's Guess</BodyText>
             <NumberContainer>{currentGuess}</NumberContainer>
             <Card style={styles.buttonContainer}>
                 <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
